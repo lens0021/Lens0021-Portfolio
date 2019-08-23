@@ -20,11 +20,14 @@ body {
 .cover header {
   margin-top: 12vh;
   padding: 2em 0;
-  color: dimgray;
   background-color: white;
   text-align: center;
 }
+.cover header h1 {
+  color: black;
+}
 .cover header h2 {
+  color: dimgray;
   font-size: 1.3em;
 }
 .cover .indicator {
@@ -217,6 +220,8 @@ body {
 }
 .contents-wrapper .contents figcaption {
   text-align: center;
+  margin-top: 0.6em;
+  color: gray;
 }
 .contents-wrapper .contents footer {
   position: relative;

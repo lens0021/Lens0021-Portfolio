@@ -22,11 +22,15 @@ body {
   header {
     margin-top: 12vh;
     padding: 2em 0;
-    color: dimgray;
     background-color: white;
     text-align: center;
 
+    h1 {
+      color: black;
+    }
     h2 {
+      color: dimgray;
+
       font-size: 1.3em;
     }
   }
@@ -232,6 +236,8 @@ body {
     }
     figcaption {
       text-align: center;
+      margin-top: 0.6em;
+      color: gray;
     }
     footer {
       position: relative;
