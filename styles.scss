@@ -1,9 +1,6 @@
 $content-width: 61em;
 $nav-width: 17em;
-
-* {
-  font-family: "Apple SD Gothic Neo", "나눔바른고딕", "맑은 고딕";
-}
+$font-family: "Apple SD Gothic Neo", "나눔바른고딕", "맑은 고딕";
 
 body {
   margin: 0;
@@ -18,6 +15,7 @@ body {
   background: radial-gradient(at 100% 0%, orange 30%, coral);
   text-decoration: none;
   cursor: unset;
+  font-family: $font-family;
 
   header {
     margin-top: 12vh;
@@ -75,6 +73,7 @@ body {
     height: 100%;
     margin-left: ($content-width + $nav-width)/2 - $nav-width;
     padding: 30px 0px 0px 0px;
+    font-family: $font-family;
 
     &.sticky {
       position: fixed;
@@ -84,8 +83,7 @@ body {
     ul,
     ol,
     li,
-    a,
-    ul ul {
+    a {
       padding: 0;
       margin: 0;
     }
@@ -126,12 +124,14 @@ body {
     padding: 0.5em 2em 2em 2em;
     background-color: white;
 
+    & > *:not(pre) {
+      font-family: $font-family;
+    }
+
     h1,
     h2,
     h3,
     h4,
-    h5,
-    h6,
     p {
       clear: left;
     }
@@ -160,8 +160,7 @@ body {
       padding-bottom: 0;
       margin-bottom: -1em;
     }
-    pre,
-    .syntaxhighlighter {
+    pre {
       font-family: "Courier";
       -moz-tab-size: 4;
       -o-tab-size: 4;
@@ -182,6 +181,14 @@ body {
         border-radius: 10px;
         background-color: coral;
       }
+    }
+
+    code {
+      font-family: "Courier";
+      background-color: #eee;
+      border-radius: 3px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
     }
 
     img {

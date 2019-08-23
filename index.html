@@ -221,26 +221,32 @@ int main(void) {
         <figcaption class="ja" style="display: none;">Talking PoPoの一モーションは30~190枚のイメージで出来上がってます。</figcaption>
       </figure>
 
-      <p class="ko">토킹 포포는 각각의 동작에 따라 애니메이션이 따로 존재하는데, 이 모든 동작의 프레임들을 한 번에 다 디코드하면 튕기고(OutOfMemoryException), 동작이 필요할 때마다 한 동작 전체를 디코드하면 그 만큼 화면이 멈췄으며, 매 프레임을 한 장씩 디코드하면 애니메이션이 느리게 재생되었습니다. 그래서 한 장을 디코드할 때마다 이 디코드에 걸리는 시간을 참고해서 몇 장을 뛰어 넘어 다음 이미지를 디코드하게 하였습니다.</p>
-      <p class="en" style="display: none;">There are several animations in the Talking PoPo. At First, I tried to decoding whole animations at once, but the application thrown an Exception(OutOfMemoryException). decodeing an whole animation pauses the animation, and decoding a needed frame slowes down the animation. finally, I decide to make it skips some frames depending on the time taken by the previous frame decoding precessing of the  decoding.</p>
-      <p class="ja" style="display: none;">Talking PoPoには動作によってそれぞれのアニメーションが存在し、最初に私はすべてのイメージを一気にデコードしようとしましたが不幸にアプリが落ちてしまいました(OutOfMemoryException)、それで動作を一つづつデコードするとその分画面が止まってしまうし、1イメージづつデコードするとアニメーション全体が遅くなりました。だから私はデコードにかかる時間を記録し、それを参考し次のイメージをデコードすることにしました。</p>
-      <p class="code_description ko">FPS를 동적으로 변경하는 코드:</p>
-      <p class="code_descriptionen" style="display: none;">Dynamically adjusted FPS:</p>
-      <p class="code_descriptionja" style="display: none;">FPSをダイナミックに変更するコード:</p>
+      <p class="ko">토킹 포포는 각각의 동작에 따라 애니메이션이 따로 존재하는데, 이 모든 동작의 프레임들을 한 번에 다 디코드하면 튕기고(<code>OutOfMemoryException</code>), 동작이 필요할 때마다 한 동작 전체를 디코드하면 그 만큼 화면이 멈췄으며, 매 프레임을 한 장씩 디코드하면 애니메이션이 느리게 재생되었습니다. 그래서 한 장을 디코드할 때마다 이 디코드에 걸리는 시간을 참고해서 몇 장을 뛰어 넘어 다음 이미지를 디코드하게 하였습니다.</p>
+      <p class="en" style="display: none;">There are several animations in the Talking PoPo. At First, I tried to decoding whole animations at once, but the application thrown an Exception(<code>OutOfMemoryException</code>). decodeing an whole animation pauses the animation, and decoding a needed frame slowes down the animation. finally, I decide to make it skips some frames depending on the time taken by the previous frame decoding precessing of the decoding.</p>
+      <p class="ja" style="display: none;">Talking PoPoには動作によってそれぞれのアニメーションが存在し、最初に私はすべてのイメージを一気にデコードしようとしましたが不幸にアプリが落ちてしまいました(<code>OutOfMemoryException</code>)、それで動作を一つづつデコードするとその分画面が止まってしまうし、1イメージづつデコードするとアニメーション全体が遅くなりました。だから私はデコードにかかる時間を記録し、それを参考し次のイメージをデコードすることにしました。</p>
+      <p class="code-description ko">FPS를 동적으로 변경하는 코드:</p>
+      <p class="code-description en" style="display: none;">Dynamically adjusted FPS:</p>
+      <p class="code-description ja" style="display: none;">FPSをダイナミックに変更するコード:</p>
       <pre class="prettyprint lang-java">
-//some variables are not writnen
-private final static float stdFps=30; //max fps of animation
-private float curFrame; //index of currently showing frame
-private float fps=stdFps; //target fps
-private int millspf=(int)(1000/stdFps); //milliseconds per frame
-private int offset=0; //offset over the normal decoding time limit
+// Some variables are omitted
+// Max fps of animation
+private final static float stdFps=30;
+// Index of currently showing frame
+private float curFrame;
+// Target fps
+private float fps=stdFps;
+// Milliseconds per frame
+private int millspf=(int)(1000/stdFps);
+// Offset for when the normal decoding time limit is over
+private int offset=0;
 
 private void drawNextFrameAndWait() {
   if((int)(curFrame+.5)>=playingAnim.length)
-    … //animation is done
+    … // The animation is done
 
   if(offset==0) {
-    startTime = System.currentTimeMillis(); //starts drawing
+    // Start drawing
+    startTime = System.currentTimeMillis();
     canvas = mSurfaceHolder.lockCanvas();
     frame=BitmapFactory.decodeResource(mResources, playingAnim[(int)(curFrame+.5)],opt);
     canvas.drawBitmap(frame,scale, null);
@@ -252,13 +258,15 @@ private void drawNextFrameAndWait() {
     offset=0;
     return;
   }
-  time = (int)(System.currentTimeMillis()-startTime); //ends drawing
+  // End drawing
+  time = (int)(System.currentTimeMillis()-startTime);
 
   if(time&lt;millspf) {
     Log.d(tag,"+"+(millspf-time)+"mills");
     sleep((long)(millspf-time));
 
-    if(time&lt;=(float)1000/(fps)) { //if time is enough to draw more
+    // If time is enough to draw more frames
+    if(time&lt;=(float)1000/(fps)) {
       changeFps((float)1000/time-fps);
     }
   }
@@ -301,19 +309,20 @@ private void changeFps(float add) {
       <li class="en" style="display: none;">Playing.</li>
       <li class="ja" style="display: none;">再生</li>
       </ol>
-      <p class="ko">당시 Android API 중에 음성 인식을 위한 SpeechRecognizer라는 클래스가 있었고 여기서 onBeginningOfSpeech(), onEndOfSpeech()라는 콜백 메소드를 제공했었는데, 인터넷 연결이 안 되어 있으면 아무 것도 동작이 안 되는 문제가 있어서 사용할 수 없었습니다.</p>
-      <p class="en" style="display: none;">Android api had offered the SpeechRecognizer class whose purpose was Recognizing human voice. And it had offered the callback methods, named onBeginningOfSpeech() and onEndOfSpeech(). But they not worked when network is not available. So I couldn't use them.</p>
-      <p class="ja" style="display: none;">当時Android APIの中に音声認識のためのSpeechRecognizerというクラスがあって、こちらからonBeginningOfSpeech(), onEndOfSpeech()などのメソッドが使えましたが、ネットに繋がらない状態では無用な問題が合って使われませんでした。</p>
+      <p class="ko">당시 Android API 중에 음성 인식을 위한 SpeechRecognizer라는 클래스가 있었고 여기서 <code>onBeginningOfSpeech()</code>, <code>onEndOfSpeech()</code>라는 콜백 메소드를 제공했었는데, 인터넷 연결이 안 되어 있으면 아무 것도 동작이 안 되는 문제가 있어서 사용할 수 없었습니다.</p>
+      <p class="en" style="display: none;">Android api had offered the SpeechRecognizer class whose purpose was Recognizing human voice. And it had offered the callback methods, named <code>onBeginningOfSpeech()</code> and <code>onEndOfSpeech()</code>. But they not worked when network is not available. So I couldn't use them.</p>
+      <p class="ja" style="display: none;">当時Android APIの中に音声認識のためのSpeechRecognizerというクラスがあって、こちらから<code>onBeginningOfSpeech()</code>, <code>onEndOfSpeech()</code>などのメソッドが使えましたが、ネットに繋がらない状態では無用な問題が合って使われませんでした。</p>
       <p class="ko">대신 API 중에 녹음을 버퍼에 저장하는 것이 있어서 버퍼를 검사하여 소리 크기를 알아낼 수 있었습니다.</p>
       <p class="en" style="display: none;">But I can check the amplitude of sound that catched by microphone by investigating the buffer offered by API</p>
       <p class="ja" style="display: none;">その代わり、TakingPoPoでは録音中のバッファを調べて直接音量を確認しました。</p>
 
-      <p class="code_description ko">버퍼에서 음량 알아내기:</p>
-      <p class="code_descriptionen" style="display: none;">Calculating the amplitude of the audio:</p>
-      <p class="code_descriptionja" style="display: none;">バッファからの音量調べ:</p>
+      <p class="code-description ko">버퍼에서 음량 알아내기:</p>
+      <p class="code_description en" style="display: none;">Calculating the amplitude of the audio:</p>
+      <p class="code_description ja" style="display: none;">バッファからの音量調べ:</p>
       <pre class="prettyprint lang-java">mAudioRecord.read(shortArrayBuffer,0,shortArrayBuffer.length);
-rmsAmplitude  = rms(shortArrayBuffer);</pre>
-      <pre class="prettyprint lang-java">private int rms(short[] array) { //root mean square
+rmsAmplitude = rms(shortArrayBuffer);</pre>
+      <pre class="prettyprint lang-java">// root mean square
+  private int rms(short[] array) {
   long sqsum = 0;
   for(int i=0;i&lt;array.length;i++) {
     sqsum += array[i]*array[i];
@@ -324,15 +333,18 @@ rmsAmplitude  = rms(shortArrayBuffer);</pre>
       <p class="en" style="display: none;">Then I let program activate recording when amplitude is bigger than a static value. But after some testing, I knew that measured amplitude so varied depening on devices. With a some more test, I decided that determining starting timing is stable when involved by ratio of the amplitude per unit time.</p>
       <p class="ja" style="display: none;">それからこの測定された音量がどれ程大きくなると録音を始めるようにしましたが、テスト結果デバイス機種によってこの数値が大きく異なるのが判明され、何回の調節のあとに段位時間内の音量変化率を使うことに決定しました。</p>
       <pre class="prettyprint lang-java">
-//some variables are not writnen
+// Some variables are omitted
 private int rmsAmplitude;
 private int whiteNoiseAmplitude=NONE;
-private int voiceAmplitude=NONE; //amplitude that let recording start
-private int amplitudeBreak = NONE; //min amplitude that sustain recoding
-private float recognitionSensitivity = 5; //smaller that number, more sensitive
+// Amplitude to start recording
+private int voiceAmplitude=NONE;
+// Min amplitude to sustain recoding
+private int amplitudeBreak = NONE;
+// Sensitivity. Smaller, more sensitive
+private float recognitionSensitivity = 5;
 …
 
-rmsAmplitude  = rms(shortArrayBuffer);
+rmsAmplitude = rms(shortArrayBuffer);
 if(whiteNoiseAmplitude!=NONE &amp;&amp; rmsAmplitude/(float)whiteNoiseAmplitude>recognitionSensitivity) {
   voiceAmplitude = rmsAmplitude;
   amplitudeBreak = (voiceAmplitude+whiteNoiseAmplitude)/2;
@@ -341,30 +353,30 @@ whiteNoiseAmplitude = rmsAmplitude;
 
 if(amplitudeBreak!=NONE &amp;&amp; rmsAmplitude>amplitudeBreak) {
   if(mState==state.normal) {
-    onBufferReceived(shortArrayBuffer); //in it, data are saved to file
-    lastListenedTime = System.currentTimeMillis(); //initialization
+    onBufferReceived(shortArrayBuffer);
+    lastListenedTime = System.currentTimeMillis(); // Initialize
 
     eventHandler.sendEmptyMessage(EventIds.start_listen);
-    setState(state.listening); //start the recording
+    setState(state.listening); // Start recording
   }
   else if(mState==state.listening) {
     onBufferReceived(shortArrayBuffer);
-    lastListenedTime = System.currentTimeMillis(); //reset
+    lastListenedTime = System.currentTimeMillis(); // Reset
   }
 }
-else  {
+else {
   if(mState==state.listening) {
-    onBufferReceived(shortArrayBuffer); //in it, data are saved to file
+    onBufferReceived(shortArrayBuffer);
     now = System.currentTimeMillis();
     if(now-lastListenedTime>waitListeningTime)
-      onEndOfSpeech(); //stop the recording
+      onEndOfSpeech(); // Stop recording
   }
 }</pre>
       <p class="ko">그리고 녹음된 소리의 피치를 높이는 것은 방법을 강구하다가 그냥 배열 길이를 줄이는 것으로 빨리감기 했습니다.</p>
       <p class="en" style="display: none;">And I shortened the array of the audio data to let it's pitches up.</p>
       <p class="ja" style="display: none;">そしてピッチアップのために配列を圧縮しました。</p>
       <pre class="prettyprint lang-java">private void onBufferReceived(short[] originalShortArray) {
-  short[] shortArray; // audio pitched up
+  short[] shortArray; // Pitched up audio
 
   shortArray = new short[(int)(originalShortArray.length/playingSpeed)];
   {
@@ -375,7 +387,7 @@ else  {
     }
   }
 
-  … //saves the shortArray in a file
+  … // Save the shortArray in a file
 }</pre>
     </div>
     <hr/>
@@ -486,9 +498,9 @@ else  {
       <p class="ko">전광판을 그리는 작업은 SurfaceView를 상속받은 LedView라는 클래스가 전담하고 있습니다. 미니전광판3에서 전광판을 볼 수 있는 액티비티는 CreateLed와 LedViewer 두 곳이 있지만 둘 모두 LedView 하나의 클래스를 사용하여 전광판을 그립니다.</p>
       <p class="en" style="display: none;">The role of LedView class that extends SurfaceView is drawing a LED. User can see a LED in CreateLed activity and LedViewer activity, but both draw LED by using LedView class. LedView saves LED data in a form of 'Led' class instance</p>
       <p class="ja" style="display: none;">Ledの作成はSurfaceViewを継承したLedViewクラスが担当してします。mini LED ３にLEDが表示される場所はCreateLedとLedViewerの２つがあり明日が、ありますが、２つとも同じようにLedViewクラスを利用してます。LedViewはLedの情報をLedというクラスのインスタンスという形で持っています。</p>
-      <p class="code_description ko">LedView 클래스의 모습:</p>
-      <p class="code_descriptionen" style="display: none;">LedView:</p>
-      <p class="code_descriptionja" style="display: none;">LedViewクラス:</p>
+      <p class="code-description ko">LedView 클래스의 모습:</p>
+      <p class="code_description en" style="display: none;">LedView:</p>
+      <p class="code_description ja" style="display: none;">LedViewクラス:</p>
       <pre class="prettyprint lang-java">public class LedView extends SurfaceView implements SurfaceHolder.Callback {
   private Led mLed = new Led();
   private LedDrawThread mLedDrawThread=null;
@@ -506,12 +518,12 @@ else  {
       <p class="ko">LedView는 전광판 정보들을 Led라는 클래스의 인스턴스를 통해 갖고 있으며, drawLed(Canvas) 메소드는 캔버스에 전광판을 그리는 일을 하는데 배경색, 글자, 테두리, 문양, 사진 순으로 전광판을 그립니다. 또한 이 메소드는 단순히 그리는 일만 담당하며, 그리기를 위한 사전 준비는 changePaintEveryTick() 메소드와 adjustMovement() 메소드에서 처리됩니다.</p>
       <p class="en" style="display: none;">You can see the call of drawLed() method in above. This method draws background color, letters, borders, shapes and photo as written order. Though not seen in above, the changePaintEveryTick() method and adjustMovement() method prepare drawing.</p>
       <p class="ja" style="display: none;">drawLed(Canvas)メソッドはカンバスに、背景色、文字、ボーダー、タイル、写真の順序にLedを作成します。材料の用意は別のchangePaintEveryTick()メッソドとadjustMovement()からされてます.</p>
-      <p class="code_description ko">필요한 경우 페인트를 변경하는 메소드:</p>
-      <p class="code_descriptionen" style="display: none;">Method changes paints if necessary:</p>
-      <p class="code_descriptionja" style="display: none;">必要によってペイントを変えるメソッド:</p>
+      <p class="code-description ko">필요한 경우 페인트를 변경하는 메소드:</p>
+      <p class="code_description en" style="display: none;">Method changes paints if necessary:</p>
+      <p class="code_description ja" style="display: none;">必要によってペイントを変えるメソッド:</p>
       <pre class="prettyprint lang-java">private void changePaintEveryTick() {
   if(mLed.getShowingEffect() == EFFECT_RAINBOW) {
-    //Random excepts background color
+    // Random excepts background color
     textPnt.setColor(Const.rainbow[(int)(System.currentTimeMillis()/STROBE_INTERVAL)%Const.rainbow.length]);
   }
   else if (mLed.getShowingEffect() == EFFECT_STROBE &amp;&amp; toggleEvery(STROBE_INTERVAL))
@@ -524,9 +536,9 @@ else  {
     textPnt.setColor(Const.color[mLed.getTextColor()]);
   }
 }</pre>
-      <p class="ko">위 코드에서, 레인보우, 깜박이(EFFECT_STROBE), 화면전환(EFFECT_INVERSE), 보통의 경우에 따라 배경색 페인트와 글자색 페인트를 바꾸어 주는 것을 관찰할 수 있습니다.</p>
-      <p class="en" style="display: none;">You can see EFFECT_RAINBOW, EFFECT_STROBE, or EFFECT_INVERSE are involved the precessing that changes paints for backgronnd and text.</p>
-      <p class="ja" style="display: none;">虹色、ストローブ(EFFECT_STROBE), 背景と文字の色の逆転(EFFECT_INVERSE)、普段の場合によって背景と文字のペイントを変更させてます。</p>
+      <p class="ko">위 코드에서, 레인보우, 깜박이(<code>EFFECT_STROBE</code>), 화면전환(<code>EFFECT_INVERSE</code>), 보통의 경우에 따라 배경색 페인트와 글자색 페인트를 바꾸어 주는 것을 관찰할 수 있습니다.</p>
+      <p class="en" style="display: none;">You can see <code>EFFECT_RAINBOW</code>, <code>EFFECT_STROBE</code>, or <code>EFFECT_INVERSE</code> are involved the precessing that changes paints for backgronnd and text.</p>
+      <p class="ja" style="display: none;">虹色、ストローブ(<code>EFFECT_STROBE</code>), 背景と文字の色の逆転(<code>EFFECT_INVERSE</code>)、普段の場合によって背景と文字のペイントを変更させてます。</p>
       <p class="ko">한편 글자의 움직임을 담당하는 adjustMovement() 메소드는 내용을 설명하기가 복잡하여 부득이 생략합니다.</p>
       <p class="en" style="display: none;">I am sorry that adjustMovement() method is so complicated to explain and I skip describing of the method on this document.</p><p class="ja" style="display: none;">申し訳ありませんが文字の動きを担当するadjustMovement()メッソドは略します</p>
       <h4 class="ko">전광판 저장/불러오기</h4>
@@ -535,9 +547,9 @@ else  {
       <p class="ko">당시 학교에서 데이터베이스 이론을 배우고 있었는데 미니전광판3가 마침 이것을 써보기 적당하다 싶어 이 때다 하고 써봤습니다.</p>
       <p class="ja" style="display: none;">当時大学からデータベースを学んでいて、使うといいなと思って使用いたしました。</p>
       <p class="en" style="display: none;">I was learned about the database theory in that I was involved this project. So I thought it is a good change to trying DB.</p>
-      <p class="code_description ko">테이블 생성:</p>
-      <p class="code_descriptionen" style="display: none;">Creating database table:</p>
-      <p class="code_descriptionja" style="display: none;">테이블 생성:</p>
+      <p class="code-description ko">테이블 생성:</p>
+      <p class="code_description en" style="display: none;">Creating database table:</p>
+      <p class="code_description ja" style="display: none;">테이블 생성:</p>
       <pre class="prettyprint lang-java">public static final String TABLE_NAME = "led";
 
 db.execSQL("CREATE TABLE "+TABLE_NAME+" ( _id INTEGER PRIMARY KEY AUTOINCREMENT"
@@ -561,14 +573,14 @@ db.execSQL("CREATE TABLE "+TABLE_NAME+" ( _id INTEGER PRIMARY KEY AUTOINCREMENT"
       <h4 class="ja" style="display: none;">アクティビティー間のデータの渡し</h4>
       <p class="ko">사용자가 전광판 편집 화면(CreateLed 액티비티)과 전체화면(LedViewer 액티비티) 사이를 이동할 때는 DB를 사용하지 않고 다음과 같이 Led 인스턴스를 인텐트에 포함시켜서 전달하였습니다.</p>
       <p class="en" style="display: none;">Mini LED 3 is not using DB when user moves between CreateLed activity and LedViewer activity, But using 'intent'.</p>
-      <p class="code_description">전광판 데이터를 인텐트에 담아 다른 액티비티로 전달하는 코드:</p>
+      <p class="code-description">전광판 데이터를 인텐트에 담아 다른 액티비티로 전달하는 코드:</p>
       <p class="ja" style="display: none;">ユーザーがLedの編集画面(CreateLed アクティビティー)とフルスクリーン表示画面(LedViewer アクティビティー)のどちらから移動するときはDBを利用させず次のようにLedインスタンスをインテントで伝わせました。</p>
       <pre class="prettyprint lang-java">itt = new Intent(this,LedViewer.class);
   itt.putExtra(Const.EXTRA_LED, preview.getLed());
   startActivityForResult(itt,REQUEST_SHOWING);</pre>
-      <p class="code_description ko">생성된 액티비티에서 인텐트를 참조하는 코드:</p>
-      <p class="code_descriptionen" style="display: none;">Some other codes that put out data from the intent:</p>
-      <p class="code_descriptionja" style="display: none;">生成したアクティビティーでインテントのデータを引き出すコード:</p>
+      <p class="code-description ko">생성된 액티비티에서 인텐트를 참조하는 코드:</p>
+      <p class="code_description en" style="display: none;">Some other codes that put out data from the intent:</p>
+      <p class="code_description ja" style="display: none;">生成したアクティビティーでインテントのデータを引き出すコード:</p>
       <pre class="prettyprint lang-java">public void onCreate(Bundle savedInstanceState) {
   …
   Intent mIntent = getIntent();
@@ -580,9 +592,9 @@ db.execSQL("CREATE TABLE "+TABLE_NAME+" ( _id INTEGER PRIMARY KEY AUTOINCREMENT"
       <p class="ko">한편, 인텐트에는 Parcelable 인터페이스를 구현하는 인스턴스만을 포함시킬 수 있으므로 Led 클래스는 이를 구현하고 있습니다.</p>
       <p class="en" style="display: none;">To put in a intent, the Led class implments the Parcelable interface.</p>
       <p class="ja" style="display: none;">また、インテントにはParcelable インタフェースを実装したインスタンスだけ運びますのでLedはこれを実装するようにしました。</p>
-      <p class="code_description ko">Led 클래스의 정의:</p>
-      <p class="code_descriptionen" style="display: none;">Led class:</p>
-      <p class="code_descriptionja" style="display: none;">Ledクラス:</p>
+      <p class="code-description ko">Led 클래스의 정의:</p>
+      <p class="code_description en" style="display: none;">Led class:</p>
+      <p class="code_description ja" style="display: none;">Ledクラス:</p>
       <pre class="prettyprint lang-java">public class Led implements Parcelable { … }</pre>
     </div>
     <hr/>
@@ -696,7 +708,7 @@ db.execSQL("CREATE TABLE "+TABLE_NAME+" ( _id INTEGER PRIMARY KEY AUTOINCREMENT"
       <p class="ja" style="display: none;">平面的には円を、上下的には放物線を描くようにして、直径をだんだん小さくさせました。</p>
     </div>
     <hr/>
-    <div  id="oddeye" class="jumptarget">
+    <div id="oddeye" class="jumptarget">
       <h3 class="ko">4. 유니티 3D PC 어드벤쳐 게임</h3>
       <h3 class="en" style="display: none;">4. Unity 3D PC Adventure Game</h3>
       <h3 class="ja" style="display: none;">4. Uniｔyの3Dパソコン用アドベンチャーゲーム</h3>
@@ -755,7 +767,7 @@ db.execSQL("CREATE TABLE "+TABLE_NAME+" ( _id INTEGER PRIMARY KEY AUTOINCREMENT"
         <th class="en" style="display: none;">Engine</th>
         <th class="ja" style="display: none;">エンジン</th>
         <td>
-          <span  class="ko" title="5.3.2에 UI가 깨지는 이슈가 있어서 업그레이드.">Unity 5.3.3f1</span>
+          <span class="ko" title="5.3.2에 UI가 깨지는 이슈가 있어서 업그레이드.">Unity 5.3.3f1</span>
           <span class="en" style="display: none;" title="Because 5.3.2 had UI glitch issue">Unity 5.3.3f1</span>
           <span title="5.3.2にUI関係のバグが有ってアップ">Unity 5.3.3f1</span>
         </td>
@@ -776,41 +788,39 @@ db.execSQL("CREATE TABLE "+TABLE_NAME+" ( _id INTEGER PRIMARY KEY AUTOINCREMENT"
       <p class="ja" style="display: none;">ODDEYEにシナリオのための独自のシステムはありませんが、その代わりにメッソド名とかのコードは読みやすくするために作成されてます。上の映像は次のようなコードで出来ています。</p>
       <pre class="prettyprint lang-cs">override public void ChapterOpening()
 {
+  // Prevent the player from doing anything.
   eventManager.ChangeAllActionAbility(false);
-  //player can do nothing
 
+  // Hide view and head-up display immediately. 'last:true' means the effect will be last.
+  // *z-order of the screen: view of 3d components - blind for game - hud - blind for hud(front)
   eventManager.GameBlackOut(last:true);
   eventManager.HudBlackOut(last:true);
-  //immediately view and head-up display is invisible. last:true means this effect will be last.
-  //*z-order of screen: view of 3d components - blind for game - hud - blind for hud(front)
 
+  // Enable player to use 'use action' which is used to skip a dialogue window.
   eventManager.ChangeActionAbility(true, PlayerAction.Using);
-  //player can use 'using' action that is used to skip dialogue windows.
 
+  // Show the dialogue with blind placed on front of the hud. As result, the dialogue appears slowly.
   eventManager.HudFadeIn(3f, last:true, synchronize:true);
   OddName = "?";
   eventManager.NormalDialogue(OddName, "이봐, 들려?");
-  //dialogue appears and blind placed on front of hud soon disappears. therefore player will see the dialogue appears slowly.
 
+  // White out the screen and the hud.
   eventManager.HudColorOut(Color.white, .1f);
-  //screen whites out. hud do too.
 
+  // Restore game view from black.
   eventManager.GameFadeIn();
-  //restores game view from black.
 
+  // Restore whole screen from white. Setting 'synchronize' parameter to true makes two command process at once.
+  // In other words, screen will be white in 3 seconds and dialogue will appear in 2.5 seconds.
   eventManager.HudColorIn(Color.white, 3f,synchronize:true);
   eventManager.Wait(2.5f);
-  //upper line restores whole screen from white. and it incluedes synchronize parameter that is true. so above two lines will be processed at once.
-  //in other words, screen will be white in 3 seconds and dialogue will appear in 2.5 seconds.
 
-  //In fact, above video includes some bugs.
-
+  // Show a dialogue. Every dialogues wait for user's reaction by default
   eventManager.NormalDialogue(OddName, "아, 이제 들리는 것 같네, 안녕?");
-  //dialogue impliedly waits for user's reaction
 
+  // Enable the player to use mouse for looking around. It executed immediately, so second line will be processed in the same time.
   eventManager.ChangeActionAbility(true, PlayerAction.ViewRotation);
   eventManager.NormalDialogue(OddName, "마우스를 움직이면 주변을 둘러볼 수 있어.");
-  //upper line makes player able to use mouse for looking around. it will be over immediately, so lower line will be processed in the same time.
   …
 }</pre>
       <p class="ko">위에서 보이는 작은 하나하나의 조작은 Event라는 이름으로 정의되었으며, EventManager 클래스는 순차적으로 작성된 이벤트들을 큐로 관리하고, 한 이벤트가 끝날 때까지 다른 이벤트를 지연시키는(때로는 동시에 일어나게 하는) 일을 하여줍니다.</p>
@@ -861,12 +871,12 @@ db.execSQL("CREATE TABLE "+TABLE_NAME+" ( _id INTEGER PRIMARY KEY AUTOINCREMENT"
   override public void Process()
   {
     timeLeft -= Time.deltaTime;
-    screenManager.GameFade(1 - timeLeft / (float)totalTime); //화면을 덮는 검은 막의 opacity
+    screenManager.GameFade(1 - timeLeft / (float)totalTime); // 화면을 덮는 검은 막의 opacity
   }
 }</pre>
-      <p class="ko">다만 오드아이에서는 게임 화면과 hud를 각각 검은색 뿐만이 아닌 원하는 색으로도 칠할 수 있도록 하기 위해 CameraEvent라는 클래스를 작성하여 사용하고 있습니다.</p>
-      <p class="en" style="display: none;">In ODDEYE, CameraEvent class is designed and used because of support for the blind of various colors.</p>
-      <p class="ja" style="display: none;">ただし、ODDEYEでは上述の機能だけじゃなく、いろんな色を選択できるようCameraEventというクラスを派生させ利用してます。</p>
+      <p class="ko">(실제 구현에서는 게임 화면과 hud를 각각 검은색 뿐만이 아닌 원하는 색으로도 칠할 수 있도록 하기 위해 CameraEvent라는 클래스를 작성하여 사용하고 있습니다)</p>
+      <p class="en" style="display: none;">(In ODDEYE, CameraEvent class is designed and used because of support for the blind of various colors)</p>
+      <p class="ja" style="display: none;">(ただし、ODDEYEでは上述の機能だけじゃなく、いろんな色を選択できるようCameraEventというクラスを派生させ利用してます)</p>
       <h4 class="ko">유저 인터페이스</h4>
       <h4 class="en" style="display: none;">User Interface</h4>
       <h4 class="ja" style="display: none;">ユーザーインターフェース</h4>
@@ -904,7 +914,7 @@ db.execSQL("CREATE TABLE "+TABLE_NAME+" ( _id INTEGER PRIMARY KEY AUTOINCREMENT"
       <pre class="prettyprint lang-cs">static public Vector3 attachToGround(PlayerCharacter player)
 {
   int layerMask = (player == cyanCharacter)?(1&lt;&lt;LayerMask.NameToLayer("CyanGround")):(1 << LayerMask.NameToLayer("RotGround"));
-  //Cyan and Rot are world's names.
+  // Cyan and Rot are world's names.
   if (Physics.SphereCast(player.transform.position + Vector3.up * 8, player.radius, Vector3.down, out hit, 11f,layerMask))
   {
     player.transform.position = hit.point;
@@ -1000,17 +1010,17 @@ db.execSQL("CREATE TABLE "+TABLE_NAME+" ( _id INTEGER PRIMARY KEY AUTOINCREMENT"
       <th class="ko">사용 경험이 있는 언어</th>
       <th class="en" style="display: none;">Languages</th>
       <th class="ja" style="display: none;">経験のある言語</th>
-      <td>C#, Java, PHP, JavaScript</td>
+      <td>C#, Java, PHP, JavaScript, Python</td>
     </tr>
     <tr>
       <th class="ko">사용 경험이 있는 툴</th>
       <th class="en" style="display: none;">Tools</th>
       <th class="ja" style="display: none;">経験のあるツール</th>
-      <td>Unity, Eclipse, VisualStudio</td>
+      <td>VSCode, Unity, Eclipse, VisualStudio</td>
     </tr>
     <tr class="ko">
       <th>학교 수업이나 기타 필요에 의해 간단하게 익힌 것</th>
-      <td>PHP, JavaScript, Lua, C, Ruby, Python, UnrealEngine4</td>
+      <td>JavaScript, Node.js, Lua, C, Ruby, Python, UnrealEngine4</td>
     </tr>
     </table>
     <h3 class="ko">연락처</h3>

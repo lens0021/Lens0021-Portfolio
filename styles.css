@@ -1,8 +1,4 @@
 @charset "UTF-8";
-* {
-  font-family: "Apple SD Gothic Neo", "나눔바른고딕", "맑은 고딕";
-}
-
 body {
   margin: 0;
   background-color: #eeeeee;
@@ -16,6 +12,7 @@ body {
   background: radial-gradient(at 100% 0%, orange 30%, coral);
   text-decoration: none;
   cursor: unset;
+  font-family: "Apple SD Gothic Neo", "나눔바른고딕", "맑은 고딕";
 }
 .cover header {
   margin-top: 12vh;
@@ -67,6 +64,7 @@ body {
   height: 100%;
   margin-left: 22em;
   padding: 30px 0px 0px 0px;
+  font-family: "Apple SD Gothic Neo", "나눔바른고딕", "맑은 고딕";
 }
 .contents-wrapper nav.sticky {
   position: fixed;
@@ -75,8 +73,7 @@ body {
 .contents-wrapper nav ul,
 .contents-wrapper nav ol,
 .contents-wrapper nav li,
-.contents-wrapper nav a,
-.contents-wrapper nav ul ul {
+.contents-wrapper nav a {
   padding: 0;
   margin: 0;
 }
@@ -112,12 +109,13 @@ body {
   padding: 0.5em 2em 2em 2em;
   background-color: white;
 }
+.contents-wrapper .contents > *:not(pre) {
+  font-family: "Apple SD Gothic Neo", "나눔바른고딕", "맑은 고딕";
+}
 .contents-wrapper .contents h1,
 .contents-wrapper .contents h2,
 .contents-wrapper .contents h3,
 .contents-wrapper .contents h4,
-.contents-wrapper .contents h5,
-.contents-wrapper .contents h6,
 .contents-wrapper .contents p {
   clear: left;
 }
@@ -143,8 +141,7 @@ body {
   padding-bottom: 0;
   margin-bottom: -1em;
 }
-.contents-wrapper .contents pre,
-.contents-wrapper .contents .syntaxhighlighter {
+.contents-wrapper .contents pre {
   font-family: "Courier";
   -moz-tab-size: 4;
   -o-tab-size: 4;
@@ -157,15 +154,20 @@ body {
   margin: 1em -1.5em !important;
   width: initial !important;
 }
-.contents-wrapper .contents pre::-webkit-scrollbar,
-.contents-wrapper .contents .syntaxhighlighter::-webkit-scrollbar {
+.contents-wrapper .contents pre::-webkit-scrollbar {
   height: 10px;
   background-color: whitesmoke;
 }
-.contents-wrapper .contents pre::-webkit-scrollbar-thumb,
-.contents-wrapper .contents .syntaxhighlighter::-webkit-scrollbar-thumb {
+.contents-wrapper .contents pre::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background-color: coral;
+}
+.contents-wrapper .contents code {
+  font-family: "Courier";
+  background-color: #eee;
+  border-radius: 3px;
+  font-size: 85%;
+  padding: 0.2em 0.4em;
 }
 .contents-wrapper .contents img {
   max-width: 35em;
