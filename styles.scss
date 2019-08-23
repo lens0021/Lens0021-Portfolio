@@ -336,3 +336,9 @@ body {
     }
   }
 }
+
+@media screen and (max-width: 700px) {
+  .contents-wrapper nav li.children {
+    display: none;
+  }
+}

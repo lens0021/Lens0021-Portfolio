@@ -302,5 +302,10 @@ body {
     width: 100%;
   }
 }
+@media screen and (max-width: 700px) {
+  .contents-wrapper nav li.children {
+    display: none;
+  }
+}
 
 /*# sourceMappingURL=styles.css.map */
