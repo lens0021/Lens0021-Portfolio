@@ -15,15 +15,33 @@ function sticky() {
   }
 }
 
+function setLanguage(lang) {
+  for (code in langElements) {
+    langElements[code].forEach(element => {
+      element.style.display = code == lang ? "" : "none";
+    });
+  }
+}
+
 document.querySelectorAll(".language-button").forEach(btn => {
   btn.addEventListener("click", event => {
     event.preventDefault();
-    for (code in langElements) {
-      langElements[code].forEach(element => {
-        element.style.display = code == btn.lang ? "" : "none";
-      });
-    }
+    setLanguage(btn.lang);
   });
 });
 window.addEventListener("scroll", sticky);
 sticky();
+
+switch (window.navigator.language || window.navigator.userLanguage) {
+  case "ko":
+  case "ko-KR":
+    setLanguage("ko");
+    break;
+  case "ja":
+  case "ja-JP":
+    setLanguage("ja");
+    break;
+  default:
+    setLanguage("en");
+    break;
+}
