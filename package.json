@@ -1,0 +1,20 @@
+{
+  "name": "lens0021-portfolio",
+  "description": "Portfolio",
+  "scripts": {
+    "scss": "node_modules/sass/sass.js --watch styles.scss styles.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lens0021/Lens0021-Portfolio.git"
+  },
+  "author": "lens0021",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lens0021/Lens0021-Portfolio/issues"
+  },
+  "homepage": "https://github.com/lens0021/Lens0021-Portfolio#readme",
+  "dependencies": {
+    "sass": "^1.22.10"
+  }
+}

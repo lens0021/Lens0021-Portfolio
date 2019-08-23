@@ -1,0 +1,299 @@
+@charset "UTF-8";
+* {
+  font-family: "Apple SD Gothic Neo", "나눔바른고딕", "맑은 고딕";
+}
+
+body {
+  margin: 0;
+  background-color: #eeeeee;
+}
+
+.cover {
+  display: block;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(at 100% 0%, orange 30%, coral);
+  text-decoration: none;
+  cursor: unset;
+}
+.cover header {
+  margin-top: 12vh;
+  padding: 2em 0;
+  color: dimgray;
+  background-color: white;
+  text-align: center;
+}
+.cover header h2 {
+  font-size: 1.3em;
+}
+.cover .indicator {
+  position: absolute;
+  display: block;
+  bottom: 5%;
+  left: 50%;
+  width: 6em;
+  margin-left: -3em;
+  color: white;
+  cursor: pointer;
+  text-align: center;
+}
+.cover .indicator:hover {
+  color: brown;
+}
+.cover .strap {
+  position: absolute;
+  top: 0;
+  right: 20%;
+  bottom: 0;
+  background-color: brown;
+  width: 3em;
+  opacity: 0.8;
+}
+
+.contents-wrapper {
+  position: relative;
+  max-width: 78em;
+  background: linear-gradient(orange, coral);
+  margin: auto;
+}
+.contents-wrapper nav {
+  position: absolute;
+  left: 50%;
+  width: 17em;
+  height: 100%;
+  margin-left: 22em;
+  padding: 30px 0px 0px 0px;
+}
+.contents-wrapper nav.sticky {
+  position: fixed;
+  top: 0;
+}
+.contents-wrapper nav ul,
+.contents-wrapper nav ol,
+.contents-wrapper nav li,
+.contents-wrapper nav a,
+.contents-wrapper nav ul ul {
+  padding: 0;
+  margin: 0;
+}
+.contents-wrapper nav ul,
+.contents-wrapper nav ol {
+  list-style-type: none;
+  margin: 0;
+  padding: 10px 0px 10px 0px;
+  height: auto;
+  background-color: white;
+}
+.contents-wrapper nav ul a {
+  padding: 16px;
+  display: block;
+  text-decoration: none;
+  font-size: 1.3em;
+  background-color: white;
+  color: dimgray;
+}
+.contents-wrapper nav ul a:hover {
+  background-color: brown;
+  text-decoration: none;
+  color: white;
+}
+.contents-wrapper nav ul ul a {
+  padding: 8px;
+  font-size: 1em;
+  padding-left: 2em;
+  list-style-type: none;
+}
+.contents-wrapper .contents {
+  width: 57em;
+  padding: 0.5em 2em 2em 2em;
+  background-color: white;
+}
+.contents-wrapper .contents h1,
+.contents-wrapper .contents h2,
+.contents-wrapper .contents h3,
+.contents-wrapper .contents h4,
+.contents-wrapper .contents h5,
+.contents-wrapper .contents h6,
+.contents-wrapper .contents p {
+  clear: left;
+}
+.contents-wrapper .contents a {
+  text-decoration: none;
+  color: black;
+}
+.contents-wrapper .contents a:hover {
+  text-decoration: underline;
+}
+.contents-wrapper .contents hr {
+  margin-top: 6em;
+}
+.contents-wrapper .contents dl dt {
+  font-weight: bold;
+}
+.contents-wrapper .contents dl dd {
+  margin-left: 0;
+}
+.contents-wrapper .contents .code-description {
+  margin-left: -1em;
+  font-size: 0.9em;
+  padding-bottom: 0;
+  margin-bottom: -1em;
+}
+.contents-wrapper .contents pre,
+.contents-wrapper .contents .syntaxhighlighter {
+  font-family: "Courier";
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+  padding: 5px;
+  border-width: 1px;
+  border-style: dashed;
+  border-color: coral;
+  overflow-x: auto;
+  margin: 1em -1.5em !important;
+  width: initial !important;
+}
+.contents-wrapper .contents pre::-webkit-scrollbar,
+.contents-wrapper .contents .syntaxhighlighter::-webkit-scrollbar {
+  height: 10px;
+  background-color: whitesmoke;
+}
+.contents-wrapper .contents pre::-webkit-scrollbar-thumb,
+.contents-wrapper .contents .syntaxhighlighter::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: coral;
+}
+.contents-wrapper .contents img {
+  max-width: 35em;
+  display: block;
+  margin: auto;
+  padding: 10px;
+}
+.contents-wrapper .contents img.scrs {
+  border: 0px none;
+  margin: auto;
+}
+.contents-wrapper .contents table {
+  border-collapse: collapse;
+  width: 90%;
+  max-width: 700px;
+  margin: auto;
+  margin-top: 1em;
+}
+.contents-wrapper .contents table.thick-header th {
+  width: 40%;
+}
+.contents-wrapper .contents td {
+  border: 1px dashed coral;
+  text-align: center;
+}
+.contents-wrapper .contents th {
+  font-weight: normal;
+  border: 1px dashed white;
+  width: 20%;
+  background-color: coral;
+  color: white;
+}
+.contents-wrapper .contents iframe {
+  max-width: 100%;
+  display: block;
+  margin: auto;
+}
+.contents-wrapper .contents img {
+  max-width: 100%;
+}
+.contents-wrapper .contents figure img {
+  margin: auto;
+  padding: 0;
+}
+.contents-wrapper .contents figure.snaps {
+  margin: 1em;
+  float: left;
+  display: block;
+}
+.contents-wrapper .contents figure.snaps img {
+  max-width: 16.5em;
+}
+.contents-wrapper .contents figcaption {
+  text-align: center;
+}
+.contents-wrapper .contents footer {
+  position: relative;
+  height: 2em;
+}
+.contents-wrapper .contents footer ul {
+  list-style-type: none;
+  position: absolute;
+  right: 0;
+  height: 2em;
+  margin: 0;
+  padding: 0;
+}
+.contents-wrapper .contents footer li {
+  padding: 0;
+  display: inline;
+}
+.contents-wrapper .contents footer li + li:before {
+  content: " | ";
+  padding: 0 10px;
+}
+
+@media screen and (max-width: 80em) {
+  .contents-wrapper {
+    width: 61em;
+  }
+  .contents-wrapper nav {
+    position: relative;
+    left: 50%;
+    margin-left: -30.5em;
+    width: 61em;
+    padding-top: 0;
+    height: 3.5em;
+    overflow: hidden;
+    background-color: orange;
+    z-index: 50;
+  }
+  .contents-wrapper nav ul {
+    padding: 0;
+    width: fit-content;
+    margin-left: 0.5em;
+  }
+  .contents-wrapper nav ul ul li a {
+    padding-left: 8px;
+  }
+  .contents-wrapper nav li {
+    display: inline-block;
+    margin: 0;
+  }
+  .contents-wrapper nav > ul > li {
+    height: 3.5em;
+  }
+  .contents-wrapper .contents {
+    display: block;
+    margin: 0;
+    width: unset;
+    padding: 0.5em 2em 2em 2em;
+  }
+  .contents-wrapper .contents .jumptarget::before {
+    content: "";
+    display: block;
+    height: 3.5em;
+    margin: -3.5em 0 0;
+  }
+  .contents-wrapper .sticky + .contents {
+    margin-top: 3.5em;
+  }
+}
+@media screen and (max-width: 63em) {
+  .contents-wrapper {
+    width: unset;
+  }
+  .contents-wrapper nav {
+    left: 0;
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/*# sourceMappingURL=styles.css.map */

@@ -1,0 +1,324 @@
+$content-width: 61em;
+$nav-width: 17em;
+
+* {
+  font-family: "Apple SD Gothic Neo", "나눔바른고딕", "맑은 고딕";
+}
+
+body {
+  margin: 0;
+  background-color: #eeeeee;
+}
+
+.cover {
+  display: block;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(at 100% 0%, orange 30%, coral);
+  text-decoration: none;
+  cursor: unset;
+
+  header {
+    margin-top: 12vh;
+    padding: 2em 0;
+    color: dimgray;
+    background-color: white;
+    text-align: center;
+
+    h2 {
+      font-size: 1.3em;
+    }
+  }
+
+  .indicator {
+    position: absolute;
+    display: block;
+    bottom: 5%;
+    left: 50%;
+    width: 6em;
+    margin-left: -3em;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+
+    &:hover {
+      color: brown;
+    }
+  }
+
+  .strap {
+    position: absolute;
+    top: 0;
+    right: 20%;
+    bottom: 0;
+    background-color: brown;
+    width: 3em;
+    opacity: 0.8;
+  }
+}
+
+.contents-wrapper {
+  position: relative;
+  max-width: $content-width + $nav-width;
+  background: linear-gradient(orange, coral);
+  margin: auto;
+  nav {
+    position: absolute;
+    left: 50%;
+    width: $nav-width;
+    height: 100%;
+    margin-left: ($content-width + $nav-width)/2 - $nav-width;
+    padding: 30px 0px 0px 0px;
+
+    &.sticky {
+      position: fixed;
+      top: 0;
+    }
+
+    ul,
+    ol,
+    li,
+    a,
+    ul ul {
+      padding: 0;
+      margin: 0;
+    }
+    ul,
+    ol {
+      list-style-type: none;
+      margin: 0;
+      padding: 10px 0px 10px 0px;
+      height: auto;
+      background-color: white;
+    }
+    ul {
+      a {
+        padding: 16px;
+        display: block;
+        text-decoration: none;
+        font-size: 1.3em;
+        background-color: white;
+        color: dimgray;
+
+        &:hover {
+          background-color: brown;
+          text-decoration: none;
+          color: white;
+        }
+      }
+      ul a {
+        padding: 8px;
+        font-size: 1em;
+        padding-left: 2em;
+        list-style-type: none;
+      }
+    }
+  }
+
+  .contents {
+    width: $content-width - 4em;
+    padding: 0.5em 2em 2em 2em;
+    background-color: white;
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p {
+      clear: left;
+    }
+    a {
+      text-decoration: none;
+      color: black;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    hr {
+      margin-top: 6em;
+    }
+    dl {
+      dt {
+        font-weight: bold;
+      }
+      dd {
+        margin-left: 0;
+      }
+    }
+
+    .code-description {
+      margin-left: -1em;
+      font-size: 0.9em;
+      padding-bottom: 0;
+      margin-bottom: -1em;
+    }
+    pre,
+    .syntaxhighlighter {
+      font-family: "Courier";
+      -moz-tab-size: 4;
+      -o-tab-size: 4;
+      tab-size: 4;
+      padding: 5px;
+      border-width: 1px;
+      border-style: dashed;
+      border-color: coral;
+      overflow-x: auto;
+      margin: 1em -1.5em !important;
+      width: initial !important;
+
+      &::-webkit-scrollbar {
+        height: 10px;
+        background-color: whitesmoke;
+      }
+      &::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background-color: coral;
+      }
+    }
+
+    img {
+      max-width: 35em;
+      display: block;
+      margin: auto;
+      padding: 10px;
+    }
+    img.scrs {
+      border: 0px none;
+      margin: auto;
+    }
+    table {
+      border-collapse: collapse;
+      width: 90%;
+      max-width: 700px;
+      margin: auto;
+      margin-top: 1em;
+    }
+    table.thick-header th {
+      width: 40%;
+    }
+    td {
+      border: 1px dashed coral;
+      text-align: center;
+    }
+    th {
+      font-weight: normal;
+      border: 1px dashed white;
+      width: 20%;
+      background-color: coral;
+      color: white;
+    }
+    iframe {
+      max-width: 100%;
+      display: block;
+      margin: auto;
+    }
+    img {
+      max-width: 100%;
+    }
+    figure img {
+      margin: auto;
+      padding: 0;
+    }
+    figure.snaps {
+      margin: 1em;
+      float: left;
+      display: block;
+    }
+    figure.snaps img {
+      max-width: 16.5em;
+    }
+    figcaption {
+      text-align: center;
+    }
+    footer {
+      position: relative;
+      height: 2em;
+    }
+    footer ul {
+      list-style-type: none;
+      position: absolute;
+      right: 0;
+      height: 2em;
+      margin: 0;
+      padding: 0;
+    }
+    footer li {
+      padding: 0;
+      display: inline;
+    }
+    footer li + li:before {
+      content: " | ";
+      padding: 0 10px;
+    }
+  }
+}
+
+@media screen and (max-width: $content-width + $nav-width + 2em) {
+  .contents-wrapper {
+    width: $content-width;
+    $nav-height: 3.5em;
+
+    nav {
+      position: relative;
+      left: 50%;
+      margin-left: -$content-width/2;
+      width: $content-width;
+      padding-top: 0;
+      height: $nav-height;
+      overflow: hidden;
+      background-color: orange;
+      z-index: 50;
+
+      ul {
+        padding: 0;
+        width: fit-content;
+        margin-left: 0.5em;
+      }
+
+      ul ul li a {
+        padding-left: 8px;
+      }
+
+      li {
+        display: inline-block;
+        margin: 0;
+      }
+
+      & > ul > li {
+        height: $nav-height;
+      }
+    }
+    .contents {
+      display: block;
+      margin: 0;
+      width: unset;
+      padding: 0.5em 2em 2em 2em;
+
+      .jumptarget::before {
+        content: "";
+        display: block;
+        height: $nav-height;
+        margin: -$nav-height 0 0;
+      }
+    }
+
+    .sticky + .contents {
+      margin-top: $nav-height;
+    }
+  }
+}
+
+@media screen and (max-width: $content-width + 2em) {
+  .contents-wrapper {
+    width: unset;
+
+    nav {
+      left: 0;
+      margin-left: 0;
+      width: 100%;
+    }
+  }
+}
