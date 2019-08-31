@@ -1,4 +1,4 @@
-"strict";
+"use strict";
 
 const nav = document.getElementById("nav");
 const langElements = {
@@ -16,7 +16,7 @@ function sticky() {
 }
 
 function setLanguage(lang) {
-  for (code in langElements) {
+  for (let code in langElements) {
     langElements[code].forEach(element => {
       element.style.display = code == lang ? "" : "none";
     });
